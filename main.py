@@ -12,9 +12,10 @@ for x in availablePorts:
     AP += 1
 keyboard = Controller()
 setup = True
+# noinspection PyTypeChecker
 layout = [[sg.Text("Please Select an Available COM Port:")],
           [sg.Text(availablePortsList)],
-          [sg.Combo(['COM1', 'COM2', 'COM3', 'COM4', 'COM5', 'COM6', 'COM7', 'COM8', 'COM9', 'COM10'], enable_events=True, key=1)],
+          [sg.Combo(['COM1', 'COM2', 'COM3', 'COM4', 'COM5', 'COM6', 'COM7', 'COM8'], enable_events=True, key=1)],
           [sg.Button('OK')]]
 setupWindow = sg.Window('ArduinoStick 1.0', layout)
 
@@ -33,6 +34,7 @@ while True:
 
     while not setup:
         event, values = setupWindow.read()
+        # noinspection PyUnboundLocalVariable
         data = arduino.read()
         print(data)
 
