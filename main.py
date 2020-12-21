@@ -63,7 +63,9 @@ def config_process():
             [sg.Text(btn8, key='btn8')]]
     layout_config = [[sg.Column(col)] + [sg.Column(col2)] + [sg.Image(r'C:\Users\manny\Desktop\config.png')], [sg.Button('Apply'), sg.Button('Start')]]
     config_window = sg.Window('ArduinoStick 1.0', layout_config)
-    if True:
+    while True:
+        global event
+
         event, values = config_window.read()
         if event == 'Apply':
             if values[1] != '':
@@ -97,11 +99,10 @@ def config_process():
 
 def run_process():
     while True:
-        data = arduino.read()
-        print(data)
+        Controller.press('d')
 
 
-while True:
+if True:
     while setup:
         print(availablePorts)
         event, valuesSetup = setupWindow.read()
@@ -114,8 +115,14 @@ while True:
 
     while not setup:
         setupWindow.close()
-        Process(target=config_process()).start()
-        Process(target=run_process()).start()
+        Process(target=run_process).start()
+        Process(target=config_process).start()
+        if True:
+            randomvar = 0
+
 #   data = arduino.read()
-#   if data.decode('utf-8') == 'd': #D
-#       keyboard.press('d')
+# #   if data.decode('utf-8') == 'd': #D
+# #       keyboard.press('d')
+
+
+
