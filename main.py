@@ -1,6 +1,6 @@
 import serial
 import time
-from pynput.keyboard import Controller
+from pynput.keyboard import Key, Controller
 import PySimpleGUI as sg
 import serial.tools.list_ports
 from multiprocessing import Process
@@ -30,7 +30,7 @@ for x in availablePorts:
 
 layoutSetup = [[sg.Text("Please Select an Available COM Port:")],
           [sg.Text(availablePortsList)],
-          [sg.Combo(['COM1', 'COM2', 'COM3', 'COM4', 'COM5', 'COM6', 'COM7', 'COM8'], enable_events=True, key=1)],
+          [sg.Combo(['COM1', 'COM2', 'COM3', 'COM4', 'COM5', 'COM6', 'COM7', 'COM8'], key=1)],
           [sg.Button('OK')]]
 
 setupWindow = sg.Window('ArduinoStick 1.0', layoutSetup)
@@ -99,7 +99,9 @@ def config_process():
 
 def run_process():
     while True:
-        Controller.press('d')
+        time.sleep(5)
+        kb = Controller()
+        kb.press('d')
 
 
 if True:
@@ -111,15 +113,11 @@ if True:
         if event == 'OK':
             arduino = serial.Serial(valuesSetup[1], 1000000, timeout=.1)
             setup = False
+            setupWindow.close()
+            Process(target=config_process()).start()
+            Process(target=run_process()).start()
+
             break
-
-    while not setup:
-        setupWindow.close()
-        Process(target=run_process).start()
-        Process(target=config_process).start()
-        if True:
-            randomvar = 0
-
 #   data = arduino.read()
 # #   if data.decode('utf-8') == 'd': #D
 # #       keyboard.press('d')
