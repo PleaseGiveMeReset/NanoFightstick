@@ -1,9 +1,10 @@
 import serial
 import time
-from pynput.keyboard import Key, Controller
+from pynput.keyboard import Controller
 import PySimpleGUI as sg
 import serial.tools.list_ports
 from multiprocessing import Process
+import threading
 sg.theme('reddit')
 
 joyN = 'up'
@@ -104,6 +105,10 @@ def run_process():
         kb.press('d')
 
 
+t1 = threading.Thread(target=run_process())
+t2 = threading.Thread(target=config_process())
+
+
 if True:
     while setup:
         print(availablePorts)
@@ -113,11 +118,9 @@ if True:
         if event == 'OK':
             arduino = serial.Serial(valuesSetup[1], 1000000, timeout=.1)
             setup = False
-            setupWindow.close()
-            Process(target=config_process()).start()
-            Process(target=run_process()).start()
-
             break
+    while not setup:
+        setupWindow.close()
 #   data = arduino.read()
 # #   if data.decode('utf-8') == 'd': #D
 # #       keyboard.press('d')
